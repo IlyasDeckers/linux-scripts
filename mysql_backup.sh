@@ -2,7 +2,7 @@
 #==============================================================================
 #TITLE:            mysql_backup.sh
 #DESCRIPTION:      script for automating the daily mysql backups on development computer
-#AUTHOR:           Ilyas Deckers
+#AUTHOR:           Ilyas Deckersssh
 #DATE:             2018-04-3
 #VERSION:          0.4
 #USAGE:            ./mysql_backup
@@ -19,11 +19,11 @@
 #==============================================================================
 
 # directory to put the backup files
-BACKUP_DIR=/home/forge/backup
+BACKUP_DIR=/backup
 
 # MYSQL Parameters
 MYSQL_UNAME=username
-MYSQL_PWORD=your-password
+MYSQL_PWORD=password
 
 # Don't backup databases with these names
 # Example: starts with mysql (^mysql) or ends with _schema (_schema$)
@@ -73,7 +73,6 @@ function backup_database(){
     output+="$database => $backup_file\n"
     echo_status "...backing up $count of $total databases: $database"
     $(mysqldump $(mysql_login) $database | gzip -9 > $backup_file)
-    /home/forge/s3Upload AKIAJFBK4CZLOBDRQ6NA pIKpExm2ie0bmIElXlKV/wGZKFIMeWYYt53bueuC clockworkbackups@eu-central-1 $backup_file mysql/
     hr
 }
 
